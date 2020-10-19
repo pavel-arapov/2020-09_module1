@@ -2,40 +2,51 @@
 using System.Collections.Generic;
 using System;
 using System.Linq;
+using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class GameController : MonoBehaviour
 {
     public CanvasGroup buttonPanel;
+    public CanvasGroup pausePanel;
+    public CanvasGroup gameUIPanel;
+    public CanvasGroup gameOverPanel;
+    public TextMeshProUGUI gameOverText;
     public Button button;
+    public Button pauseButton;
+    public Button returnToGameButton;
+    public Button exitToMainMenuButton;
+    public Button restartLevelButton;
     public Character[] playerCharacter;
     public Character[] enemyCharacter;
     Character currentTarget;
     bool waitingForInput;
 
-    Character FirstAliveCharacter(Character[] characters)
-    {
+    Character FirstAliveCharacter(Character[] characters) {
         // LINQ: return enemyCharacter.FirstOrDefault(x => !x.IsDead());
         foreach (var character in characters) {
             if (!character.IsDead())
                 return character;
         }
+
         return null;
     }
 
-    void PlayerWon()
-    {
-        Debug.Log("Player won.");
+    void PlayerWon() {
+        // Debug.Log("Player won.");
+        gameOverText.text = "Congrats! You won!";
+        Utility.SetCanvasGroupEnabled(gameOverPanel, true);
     }
 
-    void PlayerLost()
-    {
-        Debug.Log("Player lost.");
+    void PlayerLost() {
+        // Debug.Log("Player lost.");
+        gameOverText.text = "Wasted!";
+        Utility.SetCanvasGroupEnabled(gameOverPanel, true);
     }
 
-    bool CheckEndGame()
-    {
+    bool CheckEndGame() {
         if (FirstAliveCharacter(playerCharacter) == null) {
             PlayerLost();
             return true;
@@ -49,13 +60,11 @@ public class GameController : MonoBehaviour
         return false;
     }
 
-    void PlayerAttack()
-    {
+    void PlayerAttack() {
         waitingForInput = false;
     }
 
-    public void NextTarget()
-    {
+    public void NextTarget() {
         int index = Array.IndexOf(enemyCharacter, currentTarget);
         for (int i = 1; i < enemyCharacter.Length; i++) {
             int next = (index + i) % enemyCharacter.Length;
@@ -68,8 +77,7 @@ public class GameController : MonoBehaviour
         }
     }
 
-    IEnumerator GameLoop()
-    {
+    IEnumerator GameLoop() {
         yield return null;
         while (!CheckEndGame()) {
             foreach (var player in playerCharacter) {
@@ -116,17 +124,36 @@ public class GameController : MonoBehaviour
         }
     }
 
+    private static void ReturnToMainMenu() {
+        SceneManager.LoadScene("MainMenu");
+    }
+
+    private static void RestartLevel() {
+        // not an efficient approach, I suppose...
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+    }
+
     // Start is called before the first frame update
-    void Start()
-    {
+    void Start() {
         button.onClick.AddListener(PlayerAttack);
         Utility.SetCanvasGroupEnabled(buttonPanel, false);
+        Utility.SetCanvasGroupEnabled(pausePanel, false);
+        Utility.SetCanvasGroupEnabled(gameUIPanel, true);
+        Utility.SetCanvasGroupEnabled(gameOverPanel, false);
+        pauseButton.onClick.AddListener(() => {
+            Utility.SetCanvasGroupEnabled(pausePanel, true);
+            Utility.SetCanvasGroupEnabled(gameUIPanel, false);
+        });
+        returnToGameButton.onClick.AddListener(() => {
+            Utility.SetCanvasGroupEnabled(pausePanel, false);
+            Utility.SetCanvasGroupEnabled(gameUIPanel, true);
+        });
+        exitToMainMenuButton.onClick.AddListener(ReturnToMainMenu);
+        restartLevelButton.onClick.AddListener(RestartLevel);
         StartCoroutine(GameLoop());
     }
 
     // Update is called once per frame
-    void Update()
-    {
-        
+    void Update() {
     }
 }
