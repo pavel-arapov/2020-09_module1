@@ -29,6 +29,7 @@ public class CharacterAnimationEvents : MonoBehaviour
     void DoDamage()
     {
         Character targetCharacter = character.target.GetComponent<Character>();
+        targetCharacter.GetComponent<HitEffectBehaviour>().PlayEffect();
         targetCharacter.DoDamage();
     }
 }
