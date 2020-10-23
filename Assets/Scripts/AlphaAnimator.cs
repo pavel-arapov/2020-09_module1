@@ -12,7 +12,7 @@ public class AlphaAnimator : MonoBehaviour
         group = GetComponent<CanvasGroup>();
     }
 
-    void FixedUpdate()
+    void Update()
     {
         if (group.alpha < targetAlpha)
             group.alpha += 0.1f;

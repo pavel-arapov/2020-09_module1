@@ -143,10 +143,12 @@ public class GameController : MonoBehaviour
         pauseButton.onClick.AddListener(() => {
             Utility.SetCanvasGroupEnabled(pausePanel, true);
             Utility.SetCanvasGroupEnabled(gameUIPanel, false);
+            Time.timeScale = 0f;
         });
         returnToGameButton.onClick.AddListener(() => {
             Utility.SetCanvasGroupEnabled(pausePanel, false);
             Utility.SetCanvasGroupEnabled(gameUIPanel, true);
+            Time.timeScale = 1f;
         });
         exitToMainMenuButton.onClick.AddListener(ReturnToMainMenu);
         restartLevelButton.onClick.AddListener(RestartLevel);
