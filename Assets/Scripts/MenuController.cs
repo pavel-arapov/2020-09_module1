@@ -73,6 +73,8 @@ public class MenuController : MonoBehaviour
     }
 
     public void ResetSettings() {
+        volumeSlider.value = -15f; // TODO: magic numbers need to redefine them with constants or take them from snapshot (default) ?
+        effectsSlider.value = -5f;
         audioMixer.SetFloat("background", -15f);
         audioMixer.SetFloat("effects", -5f);
     }
