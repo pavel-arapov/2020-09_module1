@@ -33,6 +33,7 @@ public class CharacterAnimationEvents : MonoBehaviour
     void DoDamage()
     {
         character.PlayAttackSound();
+        character.GetComponent<MuzzleEffectBehaviour>()?.PlayEffect();
         Character targetCharacter = character.target.GetComponent<Character>();
         targetCharacter.GetComponent<HitEffectBehaviour>().PlayEffect();
         targetCharacter.PlayReceiveDamageSound();

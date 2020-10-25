@@ -162,14 +162,14 @@ public class GameController : MonoBehaviour
     void Start() {
         button.onClick.AddListener(PlayerAttack);
         Utility.SetCanvasGroupEnabled(buttonPanel, false);
-        // Utility.SetCanvasGroupEnabled(pausePanel, false);
-        // Utility.SetCanvasGroupEnabled(gameUIPanel, true);
+        Utility.SetCanvasGroupEnabled(pausePanel, false);
+        Utility.SetCanvasGroupEnabled(gameUIPanel, true);
         Utility.SetCanvasGroupEnabled(gameOverPanel, false);
         // pauseButton.onClick.AddListener(PauseGame);
         // returnToGameButton.onClick.AddListener(UnPauseGame);
         // exitToMainMenuButton.onClick.AddListener(ReturnToMainMenu);
         // restartLevelButton.onClick.AddListener(RestartLevel);
-        UnPauseGame();
+        // UnPauseGame();
         StartCoroutine(GameLoop());
     }
 
