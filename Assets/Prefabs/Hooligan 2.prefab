@@ -39,6 +39,41 @@ PrefabInstance:
       propertyPath: target
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 3697664828200059437, guid: 73e1432563d8c1a48839445fb70ed3d9,
+        type: 3}
+      propertyPath: dieSound
+      value: 
+      objectReference: {fileID: 8300000, guid: ca16427628dd74c289a2d330535b79f6, type: 3}
+    - target: {fileID: 3697664828200059437, guid: 73e1432563d8c1a48839445fb70ed3d9,
+        type: 3}
+      propertyPath: attackSound
+      value: 
+      objectReference: {fileID: 8300000, guid: 01768cbe7963a408bbcf5a2a62b71ebb, type: 3}
+    - target: {fileID: 3697664828200059437, guid: 73e1432563d8c1a48839445fb70ed3d9,
+        type: 3}
+      propertyPath: receiveDamageSound
+      value: 
+      objectReference: {fileID: 8300000, guid: da969afd1f73e44e8a640fdec919d55e, type: 3}
+    - target: {fileID: 3697664828200059437, guid: 73e1432563d8c1a48839445fb70ed3d9,
+        type: 3}
+      propertyPath: footstepSound
+      value: 
+      objectReference: {fileID: 8300000, guid: e766ba80f5da5472c9da37f63c17db9b, type: 3}
+    - target: {fileID: 3697664828200059437, guid: 73e1432563d8c1a48839445fb70ed3d9,
+        type: 3}
+      propertyPath: attackSoundName
+      value: HandHit
+      objectReference: {fileID: 0}
+    - target: {fileID: 3697664828200059437, guid: 73e1432563d8c1a48839445fb70ed3d9,
+        type: 3}
+      propertyPath: footstepSoundName
+      value: footstep3
+      objectReference: {fileID: 0}
+    - target: {fileID: 3868732282541983396, guid: 73e1432563d8c1a48839445fb70ed3d9,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 4
+      objectReference: {fileID: 0}
     - target: {fileID: 7292729299804049137, guid: 73e1432563d8c1a48839445fb70ed3d9,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -93,6 +128,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7641620440156496604, guid: 73e1432563d8c1a48839445fb70ed3d9,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8279903641659570381, guid: 73e1432563d8c1a48839445fb70ed3d9,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8455690963370006717, guid: 73e1432563d8c1a48839445fb70ed3d9,
         type: 3}

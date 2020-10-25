@@ -1,7 +1,10 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
+using UnityEngine.Audio;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class MenuController : MonoBehaviour
 {
@@ -16,6 +19,12 @@ public class MenuController : MonoBehaviour
     public CanvasGroup mainScreen;
     public CanvasGroup settingsScreen;
     public CanvasGroup levelsScreen;
+
+    [SerializeField] private AudioMixer audioMixer;
+    [SerializeField] private Slider volumeSlider;
+    [SerializeField] private TextMeshProUGUI volumeText;
+    [SerializeField] private Slider effectsSlider;
+    [SerializeField] private TextMeshProUGUI effectsText;
 
     void SetCurrentScreen(Screen screen) {
         Utility.SetCanvasGroupEnabled(mainScreen, screen == Screen.Main);
@@ -41,7 +50,31 @@ public class MenuController : MonoBehaviour
     }
 
     public void OpenSettings() {
+        audioMixer.GetFloat("background", out var background);
+        volumeSlider.value = background;
+        volumeText.text = $"Music Volume {background:F0}";
+        volumeSlider.onValueChanged.AddListener(MusicVolumeChanged);
+        
+        audioMixer.GetFloat("effects", out var master);
+        effectsSlider.value = master;
+        effectsText.text = $"Effects Volume {master:F0}";
+        effectsSlider.onValueChanged.AddListener(EffectsVolumeChanged);
         SetCurrentScreen(Screen.Settings);
+    }
+
+    private void MusicVolumeChanged(float volume) {
+        audioMixer.SetFloat("background", volume);
+        volumeText.text = $"Music Volume {volume:F0}";
+    }
+
+    private void EffectsVolumeChanged(float volume) {
+        audioMixer.SetFloat("effects", volume);
+        effectsText.text = $"Effects Volume {volume:F0}";
+    }
+
+    public void ResetSettings() {
+        audioMixer.SetFloat("background", -15f);
+        audioMixer.SetFloat("effects", -5f);
     }
 
     public void ReturnToMainMenu() {

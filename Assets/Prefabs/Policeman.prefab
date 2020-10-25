@@ -34,10 +34,30 @@ PrefabInstance:
       propertyPath: target
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 3697664828200059437, guid: 73e1432563d8c1a48839445fb70ed3d9,
+        type: 3}
+      propertyPath: attackSound
+      value: 
+      objectReference: {fileID: 8300000, guid: a434911fbdd3e4a278a15d463d3ee870, type: 3}
+    - target: {fileID: 3697664828200059437, guid: 73e1432563d8c1a48839445fb70ed3d9,
+        type: 3}
+      propertyPath: receiveDamageSound
+      value: 
+      objectReference: {fileID: 8300000, guid: 00e26cd9502e5409abe98227f004df0e, type: 3}
+    - target: {fileID: 3697664828200059437, guid: 73e1432563d8c1a48839445fb70ed3d9,
+        type: 3}
+      propertyPath: dieSound
+      value: 
+      objectReference: {fileID: 8300000, guid: e16dce78a00c242f5813e9484bed6b52, type: 3}
+    - target: {fileID: 3697664828200059437, guid: 73e1432563d8c1a48839445fb70ed3d9,
+        type: 3}
+      propertyPath: attackSoundName
+      value: ShootHit
+      objectReference: {fileID: 0}
     - target: {fileID: 3868732282541983396, guid: 73e1432563d8c1a48839445fb70ed3d9,
         type: 3}
       propertyPath: m_RootOrder
-      value: 3
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 7292729299804049137, guid: 73e1432563d8c1a48839445fb70ed3d9,
         type: 3}

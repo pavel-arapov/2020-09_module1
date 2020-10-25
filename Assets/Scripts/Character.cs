@@ -31,17 +31,40 @@ public class Character : MonoBehaviour
     public float distanceFromEnemy;
     public Transform target;
     public TargetIndicator targetIndicator;
+
+    // public AudioClip attackSound;
+    // public AudioClip receiveDamageSound;
+    // public AudioClip dieSound;
+    // public AudioClip footstepSound;
+
+    public string attackSoundName = "StandartHit";
+    public string receiveDamageSoundName = "TakeDamageShort";
+    public string dieSoundName = "die1";
+    public string footstepSoundName = "footstep2";
+    
     State state;
     Animator animator;
     Vector3 originalPosition;
     Quaternion originalRotation;
     Health health;
+    // private AudioSource _audioSource;
+    private AudioPlay _audioPlay;
+    
+    // access to the states optimised through hashes
+    private static readonly int Speed = Animator.StringToHash("Speed");
+    private static readonly int MeleeAttack = Animator.StringToHash("MeleeAttack");
+    private static readonly int Shoot = Animator.StringToHash("Shoot");
+    private static readonly int Punch = Animator.StringToHash("Punch");
+    private static readonly int Death = Animator.StringToHash("Death");
+
 
     void Start()
     {
         animator = GetComponentInChildren<Animator>();
         health = GetComponent<Health>();
         targetIndicator = GetComponentInChildren<TargetIndicator>(true);
+        // _audioSource = GetComponent<AudioSource>();
+        _audioPlay = GetComponentInChildren<AudioPlay>();
         state = State.Idle;
         originalPosition = transform.position;
         originalRotation = transform.rotation;
@@ -71,8 +94,10 @@ public class Character : MonoBehaviour
             return;
 
         health.ApplyDamage(1.0f); // FIXME: захардкожено
-        if (health.current <= 0.0f)
+        if (health.current <= 0.0f) {
             state = State.BeginDying;
+            PlayDieSound();
+        }
     }
 
     [ContextMenu("Attack")]
@@ -98,6 +123,29 @@ public class Character : MonoBehaviour
                 state = State.BeginShoot;
                 break;
         }
+    }
+
+    /**
+     * If we have no dynamic weapons we can bind the sound that we need
+     */
+    public void PlayAttackSound() {
+        // _audioSource.PlayOneShot(attackSound);
+        _audioPlay.Play(attackSoundName);
+    }
+
+    public void PlayReceiveDamageSound() {
+        // _audioSource.PlayOneShot(receiveDamageSound);
+        _audioPlay.Play(receiveDamageSoundName);
+    }
+
+    public void PlayDieSound() {
+        // _audioSource.PlayOneShot(dieSound);
+        _audioPlay.Play(dieSoundName);
+    }
+
+    public void PlayFootstepSound() {
+        // _audioSource.PlayOneShot(footstepSound);
+        _audioPlay.Play(footstepSoundName);
     }
 
     bool RunTowards(Vector3 targetPosition, float distanceFromTarget)
@@ -129,11 +177,11 @@ public class Character : MonoBehaviour
         switch (state) {
             case State.Idle:
                 transform.rotation = originalRotation;
-                animator.SetFloat("Speed", 0.0f);
+                animator.SetFloat(Speed, 0.0f);
                 break;
 
             case State.RunningToEnemy:
-                animator.SetFloat("Speed", runSpeed);
+                animator.SetFloat(Speed, runSpeed);
                 if (RunTowards(target.position, distanceFromEnemy)) {
                     switch (weapon) {
                         case Weapon.Bat:
@@ -145,10 +193,11 @@ public class Character : MonoBehaviour
                             break;
                     }
                 }
+                
                 break;
 
             case State.BeginAttack:
-                animator.SetTrigger("MeleeAttack");
+                animator.SetTrigger(MeleeAttack);
                 state = State.Attack;
                 break;
 
@@ -156,7 +205,7 @@ public class Character : MonoBehaviour
                 break;
 
             case State.BeginShoot:
-                animator.SetTrigger("Shoot");
+                animator.SetTrigger(Shoot);
                 state = State.Shoot;
                 break;
 
@@ -164,7 +213,7 @@ public class Character : MonoBehaviour
                 break;
 
             case State.BeginPunch:
-                animator.SetTrigger("Punch");
+                animator.SetTrigger(Punch);
                 state = State.Punch;
                 break;
 
@@ -172,13 +221,13 @@ public class Character : MonoBehaviour
                 break;
 
             case State.RunningFromEnemy:
-                animator.SetFloat("Speed", runSpeed);
+                animator.SetFloat(Speed, runSpeed);
                 if (RunTowards(originalPosition, 0.0f))
                     state = State.Idle;
                 break;
 
             case State.BeginDying:
-                animator.SetTrigger("Death");
+                animator.SetTrigger(Death);
                 state = State.Dead;
                 break;
 

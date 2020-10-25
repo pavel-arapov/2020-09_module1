@@ -266,6 +266,7 @@ GameObject:
   - component: {fileID: 4060600880545689115}
   - component: {fileID: 4060600880545689114}
   - component: {fileID: 4060600880545689113}
+  - component: {fileID: 2102241445187142372}
   m_Layer: 5
   m_Name: SwitchButton
   m_TagString: Untagged
@@ -400,6 +401,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   view: {fileID: 4060600881422275078}
   text: Changes current target
+--- !u!114 &2102241445187142372
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4060600880545689116}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ee8ad100ab9ff41cab06a18a1781485b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sound: {fileID: 8300000, guid: a458efca669034c91b660854ddf155dc, type: 3}
 --- !u!1 &4060600880669830263
 GameObject:
   m_ObjectHideFlags: 0
@@ -413,6 +427,7 @@ GameObject:
   - component: {fileID: 4060600880669830258}
   - component: {fileID: 4060600880669830261}
   - component: {fileID: 4060600880669830256}
+  - component: {fileID: 6934926656273832754}
   m_Layer: 5
   m_Name: AttackButton
   m_TagString: Untagged
@@ -535,6 +550,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   view: {fileID: 4060600881422275078}
   text: Attacks selected enemy
+--- !u!114 &6934926656273832754
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4060600880669830263}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ee8ad100ab9ff41cab06a18a1781485b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sound: {fileID: 8300000, guid: a458efca669034c91b660854ddf155dc, type: 3}
 --- !u!1 &4060600881422275080
 GameObject:
   m_ObjectHideFlags: 0

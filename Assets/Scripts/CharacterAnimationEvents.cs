@@ -26,10 +26,16 @@ public class CharacterAnimationEvents : MonoBehaviour
         character.SetState(Character.State.RunningFromEnemy);
     }
 
+    void Footstep() {
+        character.PlayFootstepSound();
+    }
+
     void DoDamage()
     {
+        character.PlayAttackSound();
         Character targetCharacter = character.target.GetComponent<Character>();
         targetCharacter.GetComponent<HitEffectBehaviour>().PlayEffect();
+        targetCharacter.PlayReceiveDamageSound();
         targetCharacter.DoDamage();
     }
 }

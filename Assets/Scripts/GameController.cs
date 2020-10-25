@@ -4,9 +4,11 @@ using System;
 using System.Linq;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Audio;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
+[RequireComponent(typeof(AudioSource))]
 public class GameController : MonoBehaviour
 {
     public CanvasGroup buttonPanel;
@@ -19,10 +21,15 @@ public class GameController : MonoBehaviour
     public Button returnToGameButton;
     public Button exitToMainMenuButton;
     public Button restartLevelButton;
+    public AudioClip winSound;
+    public AudioClip loseSound;
     public Character[] playerCharacter;
     public Character[] enemyCharacter;
     Character currentTarget;
     bool waitingForInput;
+    [SerializeField] private AudioMixerSnapshot pausedMixerSnapshot;
+    [SerializeField] private AudioMixerSnapshot inGameMixerSnapshot;
+    private AudioSource AudioSource => GetComponent<AudioSource>();
 
     Character FirstAliveCharacter(Character[] characters) {
         // LINQ: return enemyCharacter.FirstOrDefault(x => !x.IsDead());
@@ -37,13 +44,17 @@ public class GameController : MonoBehaviour
     void PlayerWon() {
         // Debug.Log("Player won.");
         gameOverText.text = "Congrats! You won!";
+        Utility.SetCanvasGroupEnabled(gameUIPanel, false);
         Utility.SetCanvasGroupEnabled(gameOverPanel, true);
+        AudioSource.PlayOneShot(winSound);
     }
 
     void PlayerLost() {
         // Debug.Log("Player lost.");
         gameOverText.text = "Wasted!";
+        Utility.SetCanvasGroupEnabled(gameUIPanel, false);
         Utility.SetCanvasGroupEnabled(gameOverPanel, true);
+        AudioSource.PlayOneShot(loseSound);
     }
 
     bool CheckEndGame() {
@@ -124,34 +135,41 @@ public class GameController : MonoBehaviour
         }
     }
 
-    private static void ReturnToMainMenu() {
+    public void ReturnToMainMenu() {
         SceneManager.LoadScene("MainMenu");
     }
 
-    private static void RestartLevel() {
+    public void RestartLevel() {
         // not an efficient approach, I suppose...
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+    }
+
+    public void PauseGame() {
+        Utility.SetCanvasGroupEnabled(pausePanel, true);
+        Utility.SetCanvasGroupEnabled(gameUIPanel, false);
+        pausedMixerSnapshot.TransitionTo(0.01f);
+        Time.timeScale = 0f;
+    }
+
+    public void UnPauseGame() {
+        Utility.SetCanvasGroupEnabled(pausePanel, false);
+        Utility.SetCanvasGroupEnabled(gameUIPanel, true);
+        inGameMixerSnapshot.TransitionTo(0.01f);
+        Time.timeScale = 1f;
     }
 
     // Start is called before the first frame update
     void Start() {
         button.onClick.AddListener(PlayerAttack);
         Utility.SetCanvasGroupEnabled(buttonPanel, false);
-        Utility.SetCanvasGroupEnabled(pausePanel, false);
-        Utility.SetCanvasGroupEnabled(gameUIPanel, true);
+        // Utility.SetCanvasGroupEnabled(pausePanel, false);
+        // Utility.SetCanvasGroupEnabled(gameUIPanel, true);
         Utility.SetCanvasGroupEnabled(gameOverPanel, false);
-        pauseButton.onClick.AddListener(() => {
-            Utility.SetCanvasGroupEnabled(pausePanel, true);
-            Utility.SetCanvasGroupEnabled(gameUIPanel, false);
-            Time.timeScale = 0f;
-        });
-        returnToGameButton.onClick.AddListener(() => {
-            Utility.SetCanvasGroupEnabled(pausePanel, false);
-            Utility.SetCanvasGroupEnabled(gameUIPanel, true);
-            Time.timeScale = 1f;
-        });
-        exitToMainMenuButton.onClick.AddListener(ReturnToMainMenu);
-        restartLevelButton.onClick.AddListener(RestartLevel);
+        // pauseButton.onClick.AddListener(PauseGame);
+        // returnToGameButton.onClick.AddListener(UnPauseGame);
+        // exitToMainMenuButton.onClick.AddListener(ReturnToMainMenu);
+        // restartLevelButton.onClick.AddListener(RestartLevel);
+        UnPauseGame();
         StartCoroutine(GameLoop());
     }
 
